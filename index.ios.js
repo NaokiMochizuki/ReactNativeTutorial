@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { AppRegistry, View } from 'react-native';
 
-export default class FlexDirectionBasics extends Component {
+export default class JustifyContentBasics extends Component {
   render(){
     return(
-      //flexDirectionをrowとcolumnで切り替えることで、縦横の並びを変更出来る
-      <View style={{ flex: 1, flexDirection: 'row' }}>
+      //justifyContentでflexBoxの配置位置を決定
+      //flex-start、center、flex-end、space-around、space-betweenなど
+      <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
         <View style={{ width: 50, height: 50,  backgroundColor: 'powderblue' }} />
         <View style={{ width: 50, height: 50, backgroundColor: 'skyblue' }} />
         <View style={{ width: 50, height: 50, backgroundColor: 'steelblue' }} />
@@ -14,4 +15,4 @@ export default class FlexDirectionBasics extends Component {
   }
 }
 
-AppRegistry.registerComponent('ReactNativeTutorial', () => FlexDirectionBasics);
+AppRegistry.registerComponent('ReactNativeTutorial', () => JustifyContentBasics);
