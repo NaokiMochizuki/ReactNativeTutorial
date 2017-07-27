@@ -1,30 +1,17 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
-export default class LotsOfStyles extends Component {
-  //styleで配列を渡す場合、一番最後の値が採用される
+export default class FixedDimensionsBasics extends Component {
+  //style属性内で、width、heightによるサイズの指定 backgroundColorによる背景色の指定
   render(){
     return(
       <View>
-        <Text style={ styles.red }>just red</Text>
-        <Text style={ styles.bigblue }>just bigblue</Text>
-        <Text style={ [styles.bigblue, styles.red] }>bigblue, then red</Text>
-        <Text style={ [styles.red, styles.bigblue] }>red, then bigblue</Text>
+        <View style={{ width: 50, height: 50, backgroundColor: 'powderblue' }} />
+        <View style={{ width: 100, height: 100, backgroundColor: 'skyblue' }} />
+        <View style={{ width: 150, height: 150, backgroundColor: 'steelblue' }} />
       </View>
     );
   }
 }
 
-//style属性で呼び出すStyleSheetを、stylesという名前で定義
-const styles = StyleSheet.create({
-  bigblue: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 30,
-  },
-  red: {
-    color: 'red',
-  },
-});
-
-AppRegistry.registerComponent('ReactNativeTutorial', () => LotsOfStyles);
+AppRegistry.registerComponent('ReactNativeTutorial', () => FixedDimensionsBasics);
