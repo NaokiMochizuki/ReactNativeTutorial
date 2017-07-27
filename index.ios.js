@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, View } from 'react-native';
 
 export default class FixedDimensionsBasics extends Component {
-  //style属性内で、width、heightによるサイズの指定 backgroundColorによる背景色の指定
+  //flexによって各コンポーネントの比率を指定
   render(){
     return(
-      <View>
-        <View style={{ width: 50, height: 50, backgroundColor: 'powderblue' }} />
-        <View style={{ width: 100, height: 100, backgroundColor: 'skyblue' }} />
-        <View style={{ width: 150, height: 150, backgroundColor: 'steelblue' }} />
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: 'powderblue' }} />
+        <View style={{ flex: 2, backgroundColor: 'skyblue' }} />
+        <View style={{ flex: 3, backgroundColor: 'steelblue' }} />
       </View>
     );
   }
