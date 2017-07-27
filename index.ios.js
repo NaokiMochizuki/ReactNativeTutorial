@@ -1,39 +1,30 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 
-export default class BlinkApp extends Component {
-  render() {
-    return (
+export default class LotsOfStyles extends Component {
+  //styleで配列を渡す場合、一番最後の値が採用される
+  render(){
+    return(
       <View>
-        <Blink text='I love to blink' />
-        <Blink text='Yes blinking is so great' />
-        <Blink text='Why did they ever take this out of HTML' />
-        <Blink text='Look at me look at me look at me' />
+        <Text style={ styles.red }>just red</Text>
+        <Text style={ styles.bigblue }>just bigblue</Text>
+        <Text style={ [styles.bigblue, styles.red] }>bigblue, then red</Text>
+        <Text style={ [styles.red, styles.bigblue] }>red, then bigblue</Text>
       </View>
     );
   }
 }
 
-class Blink extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { showText: true };
+//style属性で呼び出すStyleSheetを、stylesという名前で定義
+const styles = StyleSheet.create({
+  bigblue: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 30,
+  },
+  red: {
+    color: 'red',
+  },
+});
 
-    //1秒ごとにsetStateでstateの値を書き換える処理
-    setInterval(() => {
-      this.setState(previousState => {
-        return { showText: !previousState.showText };
-      });
-    }, 1000);
-  }
-
-  render() {
-    let display = this.state.showText ? this.props.text : ' ';
-    return (
-      <Text>{ display }</Text>
-    );
-  }
-}
-
-
-AppRegistry.registerComponent('ReactNativeTutorial', () => BlinkApp);
+AppRegistry.registerComponent('ReactNativeTutorial', () => LotsOfStyles);
