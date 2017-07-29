@@ -1,44 +1,50 @@
 import React, { Component } from 'react';
-import { AppRegistry, SectionList, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, ActivityIndicator, ListView, Text, View } from 'react-native';
 
-export default class FlatListBasics extends Component {
-  render() {
-    //SectionListで、ヘッダー付きのリストを表示
-    //テーブルヘッダーはrenderSectionHeaderで指定
+export default class Movies extends Component {
+  constructor(props){
+    super(props);
+    this.state = { isLoading: true }
+  }
+
+  componentDidMount() {
+    //fetch('URL')でリクエストを投げて情報を取得
+    //cloneWithRowsで、fetchの返り値からkeyがmoviesのハッシュをコピーしてdataSourceにつっこんでる
+    return fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        //DataSourceにrowが変わったかどうかのbooleanをつっこんでる
+        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        this.setState({
+          isLoading: false,
+          dataSource: ds.cloneWithRows(responseJson.movies),
+        }, function() {
+          //setStateした上で何かメソッドチェーンさせるならここに書く
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  render(){
+    //fetchで通信が終わるまで(isLoadingがfalseになるまで)の間、ActivityIndicatorで読み込み中のくるくる表示
+    if(this.state.isLoading){
+      return(
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
     return(
-      <View style={ styles.container }>
-        <SectionList
-          sections={[
-            { title: 'TableHeaderTitle1', data: ['Devin'] },
-            { title: 'TableHeaderTitle2', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie'] },
-          ]}
-          renderItem={ ({ item }) => <Text style={ styles.item }>{ item }</Text> }
-          renderSectionHeader={({ section }) => <Text style={ styles.sectionHeader }>{ section.title }</Text> }
-         />
+      <View style={{ flex: 1, paddingTop: 20 }}>
+        <ListView
+          dataSource={ this.state.dataSource }
+          renderRow={ (rowData) => <Text>{ rowData.title }, { rowData.releaseYear }</Text> }
+        />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-   flex: 1,
-   paddingTop: 22
-  },
-  sectionHeader: {
-    paddingTop: 2,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 14,
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(247,247,247,1.0)',
-  },
-  item: {
-    padding: 10,
-    fontSize: 18,
-    height: 44,
-  },
-})
-
-AppRegistry.registerComponent('ReactNativeTutorial', () => FlatListBasics);
+AppRegistry.registerComponent('ReactNativeTutorial', () => Movies);
